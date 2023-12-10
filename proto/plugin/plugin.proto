@@ -1,0 +1,34 @@
+syntax = "proto3";
+package plugin;
+
+option go_package = "github.com/Glitchfix/sdk/proto/gen/go/plugin";
+
+// Here is the overall DLock service definition where we define all our endpoints
+service DLock {
+  rpc Lock (LockRequest) returns (stream LockResponse) {}
+  rpc Unlock (LockRequest) returns (stream LockResponse) {} 
+}
+
+// Get EmptyRequest request
+message EmptyRequest {}
+
+enum OperationType {
+  Lock = 0;
+  Unlock = 1;
+  // Add more status if needed
+}
+
+// Get Metadata request
+message LockRequest {
+  string id = 1;
+  string acquirer = 2;
+  OperationType operation = 3;
+}
+
+// The response message containing Metadata
+message LockResponse {
+  string id = 1;
+  string acquirer = 2;
+  int64 status = 3;
+}
+

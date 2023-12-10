@@ -1,0 +1,107 @@
+syntax = "proto3";
+package mod;
+
+option go_package = "github.com/Glitchfix/sdk/proto/gen/go/mod";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
+
+import "google/api/annotations.proto";
+
+// Here is the overall greeting service definition where we define all our endpoints
+service Mod {
+  rpc Metadata (MetadataRequest) returns (MetadataResponse) {
+    option (google.api.http) = {
+      post: "/mod/metadata"
+      body: "*"
+    };
+  }
+
+  // Filter a node
+  rpc Filter (FilterRequest) returns (FilterResponse) {
+    option (google.api.http) = {
+      post: "/mod/filter"
+      body: "*"
+    };
+  }
+
+  // Execute a node 
+  rpc Execute  (ExecuteRequest) returns (ExecuteResponse) {
+    option (google.api.http) = {
+      post: "/mod/execute"
+      body: "*"
+    };
+  }
+
+  // Metric a node 
+  rpc Metric  (MetricRequest) returns (MetricResponse) {
+    option (google.api.http) = {
+      post: "/mod/metric"
+      body: "*"
+    };
+  }
+}
+
+
+// Get Metadata request
+message MetadataRequest {
+  string platform = 1;
+  string id = 2;
+}
+
+// The response message containing Metadata
+message MetadataResponse {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string platform = 4;
+  string type = 5;
+  repeated string child = 6;
+}
+
+
+// Filter compliance request
+message FilterRequest {
+  string platform = 1;
+  string controlID = 2;
+  string tag = 3;
+}
+
+
+message complianceResults {
+  string Platform  = 1;
+  string ControlID = 2;
+  string Resource  = 3;
+  string Reason    = 4;
+  string Status    = 5;
+  repeated string tags = 6;
+}
+
+// Filter compliance response
+message FilterResponse {
+  repeated complianceResults results = 1;
+}
+
+
+// Filter compliance response
+message ExecuteRequest {
+  string platform = 1;
+  string id = 2;
+}
+
+message ExecuteResponse {
+}
+
+// Metric compliance response
+message MetricRequest {
+  string platform = 1;
+  string id = 2;
+}
+
+message MetricResponse {
+  string platform = 1;
+  string id = 2;
+  int32 ok = 3;
+  int32 alarm = 4;
+}

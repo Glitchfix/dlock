@@ -1,0 +1,4 @@
+version: v1
+name: buf.build/fleetsec/sdk
+deps:
+  - buf.build/googleapis/googleapis
